@@ -148,6 +148,35 @@ const i18n = {
   }
 };
 
+// 3. GSAP Snapping Logic - 优化为基于精确百分比的强力吸附
+let snapTrigger; 
+const initScrollSnapping = () => {
+  if (snapTrigger) snapTrigger.kill();
+  const points = gsap.utils.toArray('.snap-point');
+  if (points.length > 0) {
+    const maxScroll = ScrollTrigger.maxScroll(window);
+    if (maxScroll <= 100) return; // 页面太短时不启动
+
+    // 精确计算每个 Section 在滚动条上的进度位置 (0-1)
+    const snapPoints = points.map(p => {
+      const st = ScrollTrigger.create({ trigger: p, start: "top top" });
+      const progress = st.start / maxScroll;
+      st.kill();
+      return progress;
+    });
+
+    snapTrigger = ScrollTrigger.create({
+      snap: {
+        snapTo: snapPoints,
+        duration: { min: 0.1, max: 0.4 },
+        delay: 0, 
+        ease: "power2.out",
+        directional: true
+      }
+    });
+  }
+};
+
 function applyLanguage(lang) {
   const dict = i18n[lang] || i18n['zh-Hans'];
   document.documentElement.lang = lang;
@@ -184,31 +213,6 @@ function applyLanguage(lang) {
     }, 200);
   }
 }
-
-document.querySelectorAll('.lang-btn').forEach(btn => {
-    btn.addEventListener('click', () => applyLanguage(btn.dataset.lang));
-});
-
-// 3. GSAP Snapping Logic
-let snapTrigger; 
-const initScrollSnapping = () => {
-  if (snapTrigger) snapTrigger.kill();
-  const points = document.querySelectorAll('.snap-point');
-  if (points.length > 0) {
-    snapTrigger = ScrollTrigger.create({
-      trigger: "body",
-      start: 0,
-      end: "max",
-      snap: {
-        snapTo: ".snap-point",
-        duration: { min: 0.1, max: 0.4 },
-        delay: 0, 
-        ease: "power2.out",
-        directional: true
-      }
-    });
-  }
-};
 
 // --- Modern Animations Setup ---
 
@@ -333,6 +337,7 @@ window.addEventListener('load', () => {
   // 关键：确保所有图片和样式加载完成后，再计算一次准确的吸附点
   if (typeof ScrollTrigger !== 'undefined') {
     ScrollTrigger.refresh();
+    initScrollSnapping();
   }
 
   if (loader) {
@@ -404,20 +409,27 @@ if (hamburgerBtn && mobileNavPanel && mainNav && mobileLinksContainer && desktop
         }
     });
 
-    // 移动端菜单初始化后也需要确保语言切换逻辑绑定
-    setTimeout(() => {
-        const mobileLangButtons = mobileLangContainer.querySelectorAll('.lang-btn');
-        mobileLangButtons.forEach(btn => {
-            btn.addEventListener('click', () => applyLanguage(btn.dataset.lang));
-        });
-    }, 100);
-
     document.addEventListener('click', (e) => {
         if (!mobileNavPanel.contains(e.target) && !hamburgerBtn.contains(e.target)) {
             closePanel();
         }
     });
 }
+
+// 窗口缩放后重新计算吸附位置，防止进度错位
+window.addEventListener('resize', () => {
+    ScrollTrigger.refresh();
+    initScrollSnapping();
+});
+
+// 统一语言按钮事件监听 (使用事件委托处理桌面和移动端按钮)
+document.addEventListener('click', (e) => {
+    const btn = e.target.closest('.lang-btn');
+    if (btn) {
+        applyLanguage(btn.dataset.lang);
+    }
+});
+
 // 8. 统一初始化与布局刷新
 const initialLang = localStorage.getItem('bilink-lang') || 'zh-Hans';
 applyLanguage(initialLang);
