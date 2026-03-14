@@ -150,8 +150,14 @@ const i18n = {
 
 // 3. GSAP Snapping Logic - 优化为基于精确百分比的强力吸附
 let snapTrigger; 
+/**
+ * 初始化滑动吸附
+ */
 const initScrollSnapping = () => {
+  if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
+  
   if (snapTrigger) snapTrigger.kill();
+  
   const points = gsap.utils.toArray('.snap-point');
   if (points.length > 0) {
     const maxScroll = ScrollTrigger.maxScroll(window);
@@ -217,28 +223,31 @@ function applyLanguage(lang) {
 // --- Modern Animations Setup ---
 
 // 1. Initialize Lenis (Smooth Scrolling)
-const lenis = new Lenis({
-  duration: 1.0,
-  easing: (t) => (t === 1 ? 1 : 1 - Math.pow(2, -10 * t)), // https://www.desmos.com/calculator/brs54l4xou
-  // direction: 'vertical', // default
-  gestureDirection: 'vertical',
-  smooth: true,
-  mouseMultiplier: 1,
-  smoothTouch: false,
-  touchMultiplier: 2,
-});
+let lenis;
+if (typeof Lenis !== 'undefined') {
+    lenis = new Lenis({
+        duration: 1.0,
+        easing: (t) => (t === 1 ? 1 : 1 - Math.pow(2, -10 * t)),
+        gestureDirection: 'vertical',
+        smooth: true,
+    });
 
-function raf(time) {
-  lenis.raf(time);
-  requestAnimationFrame(raf);
+    function raf(time) {
+        if (lenis) lenis.raf(time);
+        requestAnimationFrame(raf);
+    }
+    requestAnimationFrame(raf);
+
+    // Integrate Lenis with ScrollTrigger
+    if (typeof ScrollTrigger !== 'undefined') {
+        lenis.on('scroll', ScrollTrigger.update);
+    }
 }
-requestAnimationFrame(raf);
-
-// Integrate Lenis with ScrollTrigger
-lenis.on('scroll', ScrollTrigger.update);
 
 // 2. GSAP Animations
-gsap.registerPlugin(ScrollTrigger);
+if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+    gsap.registerPlugin(ScrollTrigger);
+}
 
 // Nav Entrance
 const playHeroAnimation = () => {
@@ -331,28 +340,34 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 });
 
 // 6. Loader
-window.addEventListener('load', () => {
+const hideLoader = () => {
   const loader = document.getElementById('loader');
   
-  // 关键：确保所有图片和样式加载完成后，再计算一次准确的吸附点
-  if (typeof ScrollTrigger !== 'undefined') {
-    ScrollTrigger.refresh();
-    initScrollSnapping();
-  }
+  if (loader && loader.style.display !== 'none') {
+    // 确保隐藏前刷新布局计算
+    if (typeof ScrollTrigger !== 'undefined') {
+        ScrollTrigger.refresh();
+        initScrollSnapping();
+    }
 
-  if (loader) {
     loader.style.opacity = '0';
     setTimeout(() => {
       loader.style.display = 'none';
-      playHeroAnimation(); // 确保 Loader 消失后再播放 Hero 动画
+      if (typeof gsap !== 'undefined') playHeroAnimation();
     }, 500);
   }
-});
+};
+
+// 监听资源加载
+window.addEventListener('load', hideLoader);
+
+// 防御性处理：如果 3 秒后还没加载完，强制关闭加载动画，防止用户一直看 logo
+setTimeout(hideLoader, 3000);
 
 // 7. Back to Top Button
 const backToTopBtn = document.getElementById('back-to-top-btn');
 
-if (backToTopBtn) {
+if (backToTopBtn && lenis) {
   // Scroll to top on click
   backToTopBtn.addEventListener('click', () => {
     lenis.scrollTo(0);
