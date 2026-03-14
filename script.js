@@ -177,8 +177,8 @@ function applyLanguage(lang) {
 
   // 切换语言后，高度发生变化，需要刷新布局
   if (typeof ScrollTrigger !== 'undefined') {
-    ScrollTrigger.refresh();
     setTimeout(() => {
+        // 确保在 200ms 后文字渲染和字体加载基本完成，强制重新计算所有位置
         ScrollTrigger.refresh();
         initScrollSnapping();
     }, 200);
@@ -237,22 +237,21 @@ lenis.on('scroll', ScrollTrigger.update);
 gsap.registerPlugin(ScrollTrigger);
 
 // Nav Entrance
-gsap.from("nav", {
-  yPercent: -100,
-  duration: 1,
-  ease: "expo.out",
-  delay: 0.5
-});
+const playHeroAnimation = () => {
+  gsap.from("nav", {
+    yPercent: -100,
+    duration: 1,
+    ease: "expo.out"
+  });
 
-// Hero Section Stagger
-gsap.from(".gsap-hero", {
-  y: 50,
-  opacity: 0,
-  duration: 1,
-  stagger: 0.2,
-  ease: "power3.out",
-  delay: 0.2
-});
+  gsap.from(".gsap-hero", {
+    y: 50,
+    opacity: 0,
+    duration: 1,
+    stagger: 0.2,
+    ease: "power3.out"
+  });
+};
 
 // Animate all sections with .gsap-scroll on scroll
 gsap.utils.toArray('.gsap-scroll').forEach(sectionContent => {
@@ -340,6 +339,7 @@ window.addEventListener('load', () => {
     loader.style.opacity = '0';
     setTimeout(() => {
       loader.style.display = 'none';
+      playHeroAnimation(); // 确保 Loader 消失后再播放 Hero 动画
     }, 500);
   }
 });
@@ -390,16 +390,17 @@ if (hamburgerBtn && mobileNavPanel && mainNav && mobileLinksContainer && desktop
     hamburgerBtn.addEventListener('click', () => {
         mobileNavPanel.style.right = '0';
     });
-    
+
     closeMenuBtn.addEventListener('click', () => {
         mobileNavPanel.style.right = '-100%';
     });
 
-    const closePanel = () => mobileNavPanel.style.right = '-100%';
+    const closePanel = () => { mobileNavPanel.style.right = '-100%'; };
 
     mobileLinksContainer.addEventListener('click', (e) => {
         if (e.target.tagName === 'A') {
-            closePanel();
+            // 稍微延迟关闭，让点击反馈更自然
+            setTimeout(closePanel, 300);
         }
     });
 
