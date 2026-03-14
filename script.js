@@ -184,7 +184,7 @@ const initScrollSnapping = () => {
 };
 
 function applyLanguage(lang) {
-  const dict = i18n[lang] || i18n['zh-Hans'];
+  const dict = i18n[lang] || i18n['en'];
   document.documentElement.lang = lang;
   document.body.dataset.lang = lang;
 
@@ -287,6 +287,40 @@ gsap.utils.toArray('.gsap-scroll').forEach(sectionContent => {
   }
 });
 
+// Scrollspy for navigation links
+if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+    const sections = gsap.utils.toArray('section[id], footer[id]');
+    const navLinks = gsap.utils.toArray('#desktop-menu a');
+
+    function setActive(id) {
+        navLinks.forEach(link => link.classList.remove('active'));
+        const activeLink = navLinks.find(link => link.getAttribute('href') === `#${id}`);
+        if (activeLink) {
+            activeLink.classList.add('active');
+        }
+    }
+
+    sections.forEach(section => {
+        let start = "top 60%";
+        let end = "bottom 40%";
+
+        if (section.id === 'vision') {
+            end = "bottom 71%";
+        }
+        if (section.id === 'contact') {
+            start = "top 75%";
+        }
+
+        ScrollTrigger.create({
+            trigger: section,
+            start: start,
+            end: end,
+            onEnter: () => setActive(section.id),
+            onEnterBack: () => setActive(section.id),
+        });
+    });
+}
+
 // 4. Vanilla Tilt Manual Initialization
 if (typeof VanillaTilt !== 'undefined') {
     VanillaTilt.init(document.querySelectorAll(".glass-card-premium, .tilt-card"), {
@@ -331,10 +365,14 @@ if (programCards.length > 0 && programBlobs.length >= 2) {
 // 5. Smooth Scroll for Anchor Links
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
   anchor.addEventListener('click', function (e) {
-    e.preventDefault();
     const target = this.getAttribute('href');
     if (target !== '#' && document.querySelector(target)) {
-      lenis.scrollTo(target);
+      e.preventDefault();
+      if (typeof lenis !== 'undefined' && lenis) {
+        lenis.scrollTo(target);
+      } else {
+        document.querySelector(target).scrollIntoView({ behavior: 'smooth' });
+      }
     }
   });
 });
@@ -389,8 +427,8 @@ const mobileNavPanel = document.getElementById('mobile-nav-panel');
 const closeMenuBtn = document.getElementById('close-menu-btn');
 const mobileLinksContainer = document.getElementById('mobile-links-container');
 const mobileLangContainer = document.getElementById('mobile-lang-container');
-const mainNav = document.querySelector('.hidden.md\\:flex');
-const desktopLangSwitcher = document.querySelector('.hidden.md\\:flex.items-center.space-x-1');
+const mainNav = document.getElementById('desktop-menu');
+const desktopLangSwitcher = document.getElementById('desktop-lang-switch');
 
 if (hamburgerBtn && mobileNavPanel && mainNav && mobileLinksContainer && desktopLangSwitcher) {
     // Clone nav links to mobile panel
@@ -446,7 +484,14 @@ document.addEventListener('click', (e) => {
 });
 
 // 8. 统一初始化与布局刷新
-const initialLang = localStorage.getItem('bilink-lang') || 'zh-Hans';
+// Get browser language
+const browserLanguage = navigator.language || navigator.userLanguage;
+
+// Set initial language based on browser language or default to 'zh-Hans'
+let initialLang = localStorage.getItem('bilink-lang') || 'en';
+
+// Set language based on local storage
+
 applyLanguage(initialLang);
 
 // 统一在最后进行一次干净的初始化
