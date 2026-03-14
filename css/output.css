@@ -711,6 +711,10 @@ video {
   margin-top: 4rem;
 }
 
+.mt-8 {
+  margin-top: 2rem;
+}
+
 .block {
   display: block;
 }
@@ -1716,6 +1720,14 @@ video {
 }
 
 @media (min-width: 640px) {
+  .sm\:w-48 {
+    width: 12rem;
+  }
+
+  .sm\:flex-row {
+    flex-direction: row;
+  }
+
   .sm\:px-6 {
     padding-left: 1.5rem;
     padding-right: 1.5rem;
@@ -1801,8 +1813,8 @@ video {
     grid-column: span 7 / span 7;
   }
 
-  .lg\:block {
-    display: block;
+  .lg\:mt-0 {
+    margin-top: 0px;
   }
 
   .lg\:grid-cols-12 {
