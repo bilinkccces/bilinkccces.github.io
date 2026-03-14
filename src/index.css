@@ -1,0 +1,17 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+SC:wght@400;500;700;800&family=Noto+Sans+TC:wght@400;500;700;800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  font-family: 'Noto Sans SC', 'Inter', system-ui, sans-serif;
+}
+
+body[data-lang='zh-Hant'] {
+  font-family: 'Noto Sans TC', 'Inter', system-ui, sans-serif;
+}
+
+body[data-lang='en'] {
+  font-family: 'Inter', system-ui, sans-serif;
+}
