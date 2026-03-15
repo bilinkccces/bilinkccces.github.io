@@ -32,7 +32,7 @@
         .glass-nav {
             backdrop-filter: blur(20px) saturate(180%);
             -webkit-backdrop-filter: blur(20px) saturate(180%);
-            background: rgba(255, 255, 255, 0.6);
+            background: rgba(255, 255, 255, 0.4);
             border-bottom: 1px solid rgba(255, 255, 255, 0.3);
         }
 
@@ -152,7 +152,7 @@
 
         /* 保持噪点纹理，并叠加在渐变之上 */
         .noise-texture {
-            background-image: url("data:image/svg+xml,%3Csvg width='6' height='6' viewBox='0 0 6 6' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%239C92AC' fill-opacity='0.1' fill-rule='evenodd'%3E%3Cpath d='M5 0h1L0 6V5zm1 5v1H5z'/%3E%3C/g%3E%3C/svg%3E");
+            background-image: url("data:image/svg+xml,%3Csvg width='6' height='6' viewBox='0 0 6 6' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%239C92AC' fill-opacity='0.15' fill-rule='evenodd'%3E%3Cpath d='M5 0h1L0 6V5zm1 5v1H5z'/%3E%3C/g%3E%3C/svg%3E");
         }
     </style>
 </head>
@@ -228,11 +228,11 @@
         <!-- Vanta Background Container (Created by JS, but we use the section itself) -->
         <!-- Content Wrapper with padding to account for fixed nav -->
         <div class="relative z-10 min-h-screen flex items-center justify-center pt-20 pb-20 lg:pb-0">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 bg-white/20 backdrop-blur rounded-3xl p-8 border border-white/20">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 bg-transparent md:bg-white/10 md:backdrop-blur-sm md:rounded-3xl p-4 md:p-8 md:border md:border-white/10">
             <div class="grid lg:grid-cols-2 gap-12 items-center">
                 <div class="mt-8 lg:mt-0">
-                    <span class="gsap-hero inline-block py-1 px-3 rounded-full bg-brand-100 text-brand-600 text-sm font-semibold mb-6 tracking-wide uppercase">Official Website</span>
-                    <h1 class="gsap-hero text-4xl md:text-5xl lg:text-6xl font-extrabold text-slate-900 tracking-tight leading-tight mb-8" data-i18n="hero.title">
+                    <span class="gsap-hero inline-block py-1 px-3 rounded-full bg-brand-100/60 backdrop-blur-sm text-brand-600 text-sm font-semibold mb-6 tracking-wide uppercase">Official Website</span>
+                    <h1 class="gsap-hero text-3xl md:text-5xl lg:text-5xl font-extrabold text-slate-900 tracking-tight leading-tight mb-8" data-i18n="hero.title">
                         以技术、文化与教育赋能社区机构
                     </h1>
                     <p class="gsap-hero text-lg md:text-xl text-slate-700 max-w-2xl leading-relaxed mb-10" data-i18n="hero.subtitle">
@@ -244,9 +244,9 @@
                     </div>
                 </div>
                 <div class="gsap-hero bg-white/70 backdrop-blur-lg p-8 rounded-2xl border border-slate-200/50 shadow-xl mt-8 lg:mt-0">
-                    <h3 class="text-2xl font-bold text-slate-900 mb-4" data-i18n="mission.title">Our Mission</h3>
-                    <p class="text-brand-600 font-medium text-lg mb-4" data-i18n="mission.lead">To empower community cultural and educational institutions through technology.</p>
-                    <p class="text-slate-600" data-i18n="mission.text">We support the long-term development of community institutions through practical digital solutions, collaborative initiatives, cultural exchange, and youth leadership development.</p>
+                    <h3 class="text-3xl font-bold text-slate-900 mb-4" data-i18n="mission.title">Our Mission</h3>
+                    <p class="text-brand-600 font-medium text-xl mb-4" data-i18n="mission.lead">To empower community cultural and educational institutions through technology.</p>
+                    <p class="text-slate-600 text-lg" data-i18n="mission.text">We support the long-term development of community institutions through practical digital solutions, collaborative initiatives, cultural exchange, and youth leadership development.</p>
                 </div>
             </div>
             </div>

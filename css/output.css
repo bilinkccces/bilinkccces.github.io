@@ -1178,6 +1178,18 @@ video {
   background-color: rgb(255 255 255 / 0.7);
 }
 
+.bg-brand-100\/80 {
+  background-color: rgb(224 242 254 / 0.8);
+}
+
+.bg-transparent {
+  background-color: transparent;
+}
+
+.bg-brand-100\/60 {
+  background-color: rgb(224 242 254 / 0.6);
+}
+
 .bg-gradient-to-br {
   background-image: linear-gradient(to bottom right, var(--tw-gradient-stops));
 }
@@ -1215,6 +1227,10 @@ video {
 
 .p-8 {
   padding: 2rem;
+}
+
+.p-4 {
+  padding: 1rem;
 }
 
 .px-3 {
@@ -1564,6 +1580,11 @@ video {
   backdrop-filter: var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);
 }
 
+.backdrop-blur-sm {
+  --tw-backdrop-blur: blur(4px);
+  backdrop-filter: var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);
+}
+
 .backdrop-filter {
   backdrop-filter: var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);
 }
@@ -1796,6 +1817,34 @@ video {
     margin-bottom: calc(1.5rem * var(--tw-space-y-reverse));
   }
 
+  .md\:rounded-3xl {
+    border-radius: 1.5rem;
+  }
+
+  .md\:border {
+    border-width: 1px;
+  }
+
+  .md\:border-white\/20 {
+    border-color: rgb(255 255 255 / 0.2);
+  }
+
+  .md\:border-white\/10 {
+    border-color: rgb(255 255 255 / 0.1);
+  }
+
+  .md\:bg-white\/20 {
+    background-color: rgb(255 255 255 / 0.2);
+  }
+
+  .md\:bg-white\/10 {
+    background-color: rgb(255 255 255 / 0.1);
+  }
+
+  .md\:p-8 {
+    padding: 2rem;
+  }
+
   .md\:pt-12 {
     padding-top: 3rem;
   }
@@ -1836,6 +1885,16 @@ video {
   .md\:text-xl {
     font-size: 1.25rem;
     line-height: 1.75rem;
+  }
+
+  .md\:backdrop-blur {
+    --tw-backdrop-blur: blur(8px);
+    backdrop-filter: var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);
+  }
+
+  .md\:backdrop-blur-sm {
+    --tw-backdrop-blur: blur(4px);
+    backdrop-filter: var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);
   }
 }
 
@@ -1880,6 +1939,11 @@ video {
 
   .lg\:text-7xl {
     font-size: 4.5rem;
+    line-height: 1;
+  }
+
+  .lg\:text-5xl {
+    font-size: 3rem;
     line-height: 1;
   }
 }

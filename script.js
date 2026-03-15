@@ -176,9 +176,10 @@ const initScrollSnapping = () => {
     snapTrigger = ScrollTrigger.create({
       snap: {
         snapTo: snapPoints,
-        duration: { min: 0.1, max: 0.3 },
+        duration: { min: 0.2, max: 0.4 },
         delay: 0, 
-        ease: "power3.inOut"
+        ease: "power3.inOut",
+        inertia: false // 禁用惯性，强制吸附到最近的点，防止跳屏
       }
     });
   }
