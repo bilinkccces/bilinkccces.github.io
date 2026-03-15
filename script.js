@@ -1,10 +1,12 @@
+import './input.css';
+
 const i18n = {
   'en': {
     'nav.home': 'Home',
     'nav.about': 'About',
     'nav.programs': 'Programs',
     'nav.vision': 'Vision',
-    'nav.membership': 'Membership',
+    'nav.membership': 'Volunteering',
     'nav.contact': 'Contact',
     'nav.brand.full': 'BILINK Canada-China<br>Culture & Education Society',
     'nav.brand.short': 'BILINK CCCES',
@@ -34,13 +36,13 @@ const i18n = {
     'vision.title': 'Our Vision',
     'vision.text': 'To become a trusted platform connecting technology, culture, education, and community—enabling institutions and people to grow together across generations and across borders.',
     'membership.eyebrow': 'Community',
-    'membership.title': 'Membership & Volunteering',
-    'membership.text': 'Families, students, educators, and community members are welcome to join us to co-create cultural and educational impact.',
-    'membership.empower': 'Empowerment',
-    'membership.p1': 'Access educational programs and cultural events',
-    'membership.p2': 'Receive priority updates on lectures and resources',
-    'membership.p3': 'Join volunteer teams for key community events',
-    'membership.p4': 'Co-develop non-profit collaborations with local partners',
+    'membership.title': 'Volunteer Action',
+    'membership.text': 'We welcome families, students, educators, and community members to support Canada–China cultural and educational exchange through volunteer service and meaningful action.',
+    'membership.empower': 'Collaborative Growth',
+    'membership.p1': 'Participate in educational programs and cultural activities',
+    'membership.p2': 'Receive priority access to talks, workshops, and community resources',
+    'membership.p3': 'Join volunteer efforts and support community initiatives',
+    'membership.p4': 'Collaborate across organizations to advance public-interest partnerships',
     'contact.title': 'Contact Us',
     'footer.brand': 'BILINK Canada-China Culture & Education Society',
     'contact.addr': 'Address: Greater Vancouver, British Columbia, Canada',
@@ -53,7 +55,7 @@ const i18n = {
     'nav.about': '关于我们',
     'nav.programs': '项目与活动',
     'nav.vision': '愿景',
-    'nav.membership': '会员与志愿者',
+    'nav.membership': '志愿者行动',
     'nav.contact': '联系我们',
     'nav.brand.full': '比邻加中文化教育协会',
     'nav.brand.short': '比邻加中文化教育协会',
@@ -83,13 +85,13 @@ const i18n = {
     'vision.title': '我们的愿景',
     'vision.text': '成为一个值得信赖的平台，连接技术、文化、教育与社区，推动机构与个人跨代际、跨文化共同成长。',
     'membership.eyebrow': '社区',
-    'membership.title': '会员与志愿者',
-    'membership.text': '欢迎家庭、学生、教育工作者与社区成员加入我们，共同推动加中文化教育交流。',
-    'membership.empower': '赋能成长',
+    'membership.title': '志愿者行动',
+    'membership.text': '我们欢迎家庭、学生、教育工作者与社区成员通过志愿服务与实际行动，共同支持中加文化教育交流与社区发展。',
+    'membership.empower': '协作共建',
     'membership.p1': '参与协会教育项目与文化活动',
     'membership.p2': '优先获取讲座、研讨与社区资源',
-    'membership.p3': '加入志愿者团队参与大型活动执行',
-    'membership.p4': '与本地机构共同推动公益合作',
+    'membership.p3': '参与志愿行动，支持社区项目落地',
+    'membership.p4': '参与跨机构协作，推动社区公益合作',
     'contact.title': '联系我们',
     'footer.brand': '比邻加中文化教育协会',
     'contact.addr': '地址：加拿大不列颠哥伦比亚省大温哥华地区',
@@ -102,7 +104,7 @@ const i18n = {
     'nav.about': '關於我們',
     'nav.programs': '項目與活動',
     'nav.vision': '願景',
-    'nav.membership': '會員與志願者',
+    'nav.membership': '志願行動',
     'nav.contact': '聯絡我們',
     'nav.brand.full': '比鄰加中文化教育協會',
     'nav.brand.short': '比鄰加中文化教育協會',
@@ -132,13 +134,13 @@ const i18n = {
     'vision.title': '我們的願景',
     'vision.text': '成為一個值得信賴的平台，連接技術、文化、教育與社區，推動機構與個人跨世代、跨文化共同成長。',
     'membership.eyebrow': '社區',
-    'membership.title': '會員與志願者',
-    'membership.text': '歡迎家庭、學生、教育工作者與社區成員加入我們，共同推動加中文化教育交流。',
-    'membership.empower': '賦能成長',
+    'membership.title': '志願者行動',
+    'membership.text': '我們歡迎家庭、學生、教育工作者與社區成員透過志願服務與實際行動，共同支持中加文化教育交流與社區發展。',
+    'membership.empower': '協作共建',
     'membership.p1': '參與協會教育項目與文化活動',
     'membership.p2': '優先獲取講座、研討與社區資源',
-    'membership.p3': '加入志願者團隊參與大型活動執行',
-    'membership.p4': '與本地機構共同推動公益合作',
+    'membership.p3': '參與志願行動，支持社區項目落地',
+    'membership.p4': '參與跨機構協作，推動社區公益合作',
     'contact.title': '聯絡我們',
     'footer.brand': '比鄰加中文化教育協會',
     'contact.addr': '地址：加拿大卑詩省大溫哥華地區',
@@ -250,16 +252,23 @@ if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
 }
 
 // Nav Entrance
+// 1. 立即设置初始状态（隐藏），防止 Loader 消失时看到完整布局后又闪烁
+if (typeof gsap !== 'undefined') {
+    gsap.set("nav", { yPercent: -100 });
+    gsap.set(".gsap-hero", { y: 50, opacity: 0 });
+}
+
+// 2. 定义播放动画函数（从隐藏状态 -> 正常状态）
 const playHeroAnimation = () => {
-  gsap.from("nav", {
-    yPercent: -100,
+  gsap.to("nav", {
+    yPercent: 0,
     duration: 1,
     ease: "expo.out"
   });
 
-  gsap.from(".gsap-hero", {
-    y: 50,
-    opacity: 0,
+  gsap.to(".gsap-hero", {
+    y: 0,
+    opacity: 1,
     duration: 1,
     stagger: 0.2,
     ease: "power3.out"
@@ -323,27 +332,29 @@ if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
 
 // 4. Vanilla Tilt Manual Initialization
 if (typeof VanillaTilt !== 'undefined') {
-    VanillaTilt.init(document.querySelectorAll(".glass-card-premium, .tilt-card"), {
+    // Initialize premium glass cards which don't use data-tilt attributes
+    VanillaTilt.init(document.querySelectorAll(".glass-card-premium"), {
         max: 10,
         speed: 400,
         glare: true,
         "max-glare": 0.2,
         gyroscope: true
     });
+    // .tilt-card elements are initialized automatically via data-tilt attributes in the HTML
 }
 
 // 4.5 Programs Card Hover - Background Blobs Interaction
 const programCards = document.querySelectorAll('#programs .tilt-card');
 const programBlobs = document.querySelectorAll('#programs .blob');
 
-if (programCards.length > 0 && programBlobs.length >= 2) {
+if (programCards.length > 0 && programBlobs.length > 1) {
     programCards.forEach(card => {
         card.addEventListener('mouseenter', () => {
-            // 使气泡颜色变深，并伴随轻微放大效果
+            // 鼠标悬停时，改变背景气泡的颜色和大小
             gsap.to(programBlobs[0], { 
-                backgroundColor: '#bae6fd', // sky-200
-                scale: 1.1,
-                duration: 0.8, 
+                backgroundColor: '#a5b4fc', // indigo-300
+                scale: 1.2,
+                duration: 1, 
                 ease: "power2.out" 
             });
             gsap.to(programBlobs[1], { 
@@ -405,32 +416,42 @@ setTimeout(hideLoader, 3000);
 // 7. Back to Top Button
 const backToTopBtn = document.getElementById('back-to-top-btn');
 
-if (backToTopBtn && lenis) {
+if (backToTopBtn) {
   // Scroll to top on click
   backToTopBtn.addEventListener('click', () => {
-    lenis.scrollTo(0);
+    if (typeof lenis !== 'undefined' && lenis) {
+      lenis.scrollTo(0);
+    } else {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
   });
 
-  // Show/hide button on scroll, using Lenis' scroll event
-  lenis.on('scroll', ({ scroll }) => {
-    if (scroll > window.innerHeight * 0.5) { // Show after scrolling 50% of the viewport height
+  const toggleBackToTop = (scrollPos) => {
+    if (scrollPos > window.innerHeight * 0.5) {
       backToTopBtn.classList.remove('opacity-0', 'invisible');
     } else {
       backToTopBtn.classList.add('opacity-0', 'invisible');
     }
-  });
+  };
+
+  if (typeof lenis !== 'undefined' && lenis) {
+    lenis.on('scroll', ({ scroll }) => toggleBackToTop(scroll));
+  } else {
+    window.addEventListener('scroll', () => toggleBackToTop(window.scrollY));
+  }
 }
 
 // Mobile Hamburger Menu
 const hamburgerBtn = document.getElementById('hamburger-btn');
 const mobileNavPanel = document.getElementById('mobile-nav-panel');
+const mobileMenuOverlay = document.getElementById('mobile-menu-overlay');
 const closeMenuBtn = document.getElementById('close-menu-btn');
 const mobileLinksContainer = document.getElementById('mobile-links-container');
 const mobileLangContainer = document.getElementById('mobile-lang-container');
 const mainNav = document.getElementById('desktop-menu');
 const desktopLangSwitcher = document.getElementById('desktop-lang-switch');
 
-if (hamburgerBtn && mobileNavPanel && mainNav && mobileLinksContainer && desktopLangSwitcher) {
+if (hamburgerBtn && mobileNavPanel && mobileMenuOverlay && mainNav && mobileLinksContainer && desktopLangSwitcher) {
     // Clone nav links to mobile panel
     mobileLinksContainer.innerHTML = mainNav.innerHTML;
 
@@ -446,14 +467,24 @@ if (hamburgerBtn && mobileNavPanel && mainNav && mobileLinksContainer && desktop
     });
 
     hamburgerBtn.addEventListener('click', () => {
-        mobileNavPanel.style.right = '0';
+        mobileNavPanel.classList.add('is-open');
+        mobileMenuOverlay.classList.add('is-open');
+
+        if (typeof gsap !== 'undefined') {
+            gsap.fromTo(mobileLinks, 
+                { y: 20, opacity: 0 },
+                { y: 0, opacity: 1, duration: 0.4, stagger: 0.1, delay: 0.2, ease: "power2.out", overwrite: "auto" }
+            );
+        }
     });
 
-    closeMenuBtn.addEventListener('click', () => {
-        mobileNavPanel.style.right = '-100%';
-    });
+    const closePanel = () => {
+        mobileNavPanel.classList.remove('is-open');
+        mobileMenuOverlay.classList.remove('is-open');
+    };
 
-    const closePanel = () => { mobileNavPanel.style.right = '-100%'; };
+    closeMenuBtn.addEventListener('click', closePanel);
+    mobileMenuOverlay.addEventListener('click', closePanel);
 
     mobileLinksContainer.addEventListener('click', (e) => {
         if (e.target.tagName === 'A') {
