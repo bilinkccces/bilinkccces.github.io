@@ -463,7 +463,7 @@ if (hamburgerBtn && mobileNavPanel && mobileMenuOverlay && mainNav && mobileLink
     // Style mobile links
     const mobileLinks = mobileLinksContainer.querySelectorAll('a');
     mobileLinks.forEach(link => {
-        link.className = 'mobile-nav-link text-xl font-bold text-slate-700 hover:text-brand-600 transition-colors py-2 block w-full text-center';
+        link.className = 'mobile-nav-link text-lg font-bold text-slate-700 hover:text-brand-600 transition-colors py-2 block w-full text-center';
     });
 
     hamburgerBtn.addEventListener('click', () => {

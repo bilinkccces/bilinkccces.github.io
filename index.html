@@ -171,7 +171,7 @@
                     <img src="assets/logo.svg" alt="BILINK Logo" class="h-10 w-auto" onerror="this.style.display='none'">
                     <div class="font-heading font-bold tracking-tight text-slate-900">
                         <span class="hidden md:block text-lg leading-tight" data-i18n="nav.brand.full">BILINK Canada-China<br>Culture & Education Society</span>
-                        <span class="md:hidden text-xl" data-i18n="nav.brand.short">BILINK CCCES</span>
+                        <span class="md:hidden text-xl whitespace-nowrap" data-i18n="nav.brand.short">BILINK CCCES</span>
                     </div>
                 </div>
                 
@@ -215,13 +215,13 @@
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
             </button>
         </div>
-        <div id="mobile-links-container" class="flex-grow flex flex-col items-center justify-center space-y-8 px-6">
+        <div id="mobile-links-container" class="flex-grow flex flex-col items-center justify-start space-y-6 px-6 pt-16">
             <!-- Mobile nav links will be populated by JS -->
         </div>
     </div>
 
     <!-- Hero Section -->
-    <section id="hero" class="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden hero-gradient">
+    <section id="hero" class="relative min-h-screen flex items-center justify-center pt-20 pb-20 lg:pb-0 overflow-hidden hero-gradient">
         <!-- Dynamic Background Blobs -->
         <div class="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
             <div class="blob bg-purple-300 w-96 h-96 rounded-full -top-20 -left-20 mix-blend-multiply animate-blob"></div>
@@ -231,7 +231,7 @@
 
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
             <div class="grid lg:grid-cols-2 gap-12 items-center">
-                <div>
+                <div class="mt-8 lg:mt-0">
                     <span class="gsap-hero inline-block py-1 px-3 rounded-full bg-brand-100 text-brand-600 text-sm font-semibold mb-6 tracking-wide uppercase">Official Website</span>
                     <h1 class="gsap-hero text-4xl md:text-5xl lg:text-6xl font-extrabold text-slate-900 tracking-tight leading-tight mb-8" data-i18n="hero.title">
                         以技术、文化与教育赋能社区机构
@@ -286,13 +286,13 @@
                     </div>
                     
                     <!-- Added Value Markers -->
-                    <div class="mt-16 grid grid-cols-2 gap-12 border-t border-slate-100 pt-12">
+                    <div class="mt-8 md:mt-16 grid grid-cols-1 sm:grid-cols-2 gap-12 border-t border-slate-100 pt-6 md:pt-12 pb-8">
                         <div class="group">
-                            <p class="text-4xl font-serif font-bold text-brand-600 mb-2 group-hover:scale-110 transition-transform origin-left duration-500" data-i18n="about.v_title">Visionary</p>
+                            <p class="text-3xl md:text-4xl font-serif font-bold text-brand-600 mb-2 group-hover:scale-110 transition-transform origin-left duration-500" data-i18n="about.v_title">Visionary</p>
                             <p class="text-xs uppercase tracking-widest text-slate-400 font-bold" data-i18n="about.v_sub">Approach</p>
                         </div>
                         <div class="group">
-                            <p class="text-4xl font-serif font-bold text-brand-600 mb-2 group-hover:scale-110 transition-transform origin-left duration-500" data-i18n="about.c_title">Collaborative</p>
+                            <p class="text-3xl md:text-4xl font-serif font-bold text-brand-600 mb-2 group-hover:scale-110 transition-transform origin-left duration-500" data-i18n="about.c_title">Collaborative</p>
                             <p class="text-xs uppercase tracking-widest text-slate-400 font-bold" data-i18n="about.c_sub">Spirit</p>
                         </div>
                     </div>
