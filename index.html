@@ -14,6 +14,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.1/vanilla-tilt.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vanta/0.5.24/vanta.net.min.js"></script>
     <style>
         [data-lang="zh-Hans"] body { 
             font-family: 'PingFang SC', 'Microsoft YaHei', 'Noto Sans SC', sans-serif; 
@@ -21,8 +23,8 @@
         [data-lang="zh-Hant"] body { 
             font-family: 'PingFang TC', 'Microsoft JhengHei', 'Noto Sans TC', sans-serif; 
         }
-        /* Headings: Elegant Serif for Institutional Prestige */
-        h1, h2, h3, .font-heading { font-family: 'Playfair Display', serif; }
+        /* Headings: Use Inter for modern look, fallback to serif */
+        h1, h2, h3, .font-heading { font-family: 'Inter', sans-serif; }
         [data-lang="zh-Hans"] h1, [data-lang="zh-Hans"] h2, [data-lang="zh-Hans"] h3, [data-lang="zh-Hans"] .font-heading { font-family: 'Noto Serif SC', serif; }
         [data-lang="zh-Hant"] h1, [data-lang="zh-Hant"] h2, [data-lang="zh-Hant"] h3, [data-lang="zh-Hant"] .font-heading { font-family: 'Noto Serif TC', serif; }
 
@@ -30,7 +32,7 @@
         .glass-nav {
             backdrop-filter: blur(20px) saturate(180%);
             -webkit-backdrop-filter: blur(20px) saturate(180%);
-            background: rgba(255, 255, 255, 0.65);
+            background: rgba(255, 255, 255, 0.6);
             border-bottom: 1px solid rgba(255, 255, 255, 0.3);
         }
 
@@ -139,7 +141,7 @@
             100% { transform: translate(40px, -40px) scale(1.1); }
         }
         .hero-gradient {
-            background: radial-gradient(circle at top right, #f8fafc, #f0f9ff);
+            background: transparent; /* Make transparent for Vanta.js */
         }
         .about-gradient {
             background: radial-gradient(circle at bottom left, #f1f5f9, #ffffff);
@@ -150,11 +152,11 @@
 
         /* 保持噪点纹理，并叠加在渐变之上 */
         .noise-texture {
-            background-image: url("data:image/svg+xml,%3Csvg width='6' height='6' viewBox='0 0 6 6' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%239C92AC' fill-opacity='0.05' fill-rule='evenodd'%3E%3Cpath d='M5 0h1L0 6V5zm1 5v1H5z'/%3E%3C/g%3E%3C/svg%3E");
+            background-image: url("data:image/svg+xml,%3Csvg width='6' height='6' viewBox='0 0 6 6' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%239C92AC' fill-opacity='0.1' fill-rule='evenodd'%3E%3Cpath d='M5 0h1L0 6V5zm1 5v1H5z'/%3E%3C/g%3E%3C/svg%3E");
         }
     </style>
 </head>
-<body class="font-sans text-slate-800 antialiased bg-slate-50 selection:bg-brand-100 selection:text-brand-900">
+<body class="font-sans text-slate-800 antialiased bg-slate-50 selection:bg-brand-100 selection:text-brand-900 snap-y snap-proximity">
 
     <!-- Loader -->
     <div id="loader" class="fixed inset-0 z-[100] flex items-center justify-center bg-slate-50 transition-opacity duration-500 ease-in-out">
@@ -221,15 +223,12 @@
     </div>
 
     <!-- Hero Section -->
-    <section id="hero" class="relative min-h-screen flex items-center justify-center pt-20 pb-20 lg:pb-0 overflow-hidden hero-gradient">
-        <!-- Dynamic Background Blobs -->
-        <div class="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
-            <div class="blob bg-purple-300 w-96 h-96 rounded-full -top-20 -left-20 mix-blend-multiply animate-blob"></div>
-            <div class="blob bg-blue-300 w-96 h-96 rounded-full top-40 -right-20 mix-blend-multiply animate-blob" style="animation-delay: 2s"></div>
-            <div class="blob bg-brand-200 w-80 h-80 rounded-full bottom-0 left-1/3 mix-blend-multiply animate-blob" style="animation-delay: 4s"></div>
-        </div>
-
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+    <!-- Vanta.js will be initialized on this element via ID -->
+    <section id="hero" class="relative min-h-screen bg-slate-50 snap-point snap-start">
+        <!-- Vanta Background Container (Created by JS, but we use the section itself) -->
+        <!-- Content Wrapper with padding to account for fixed nav -->
+        <div class="relative z-10 min-h-screen flex items-center justify-center pt-20 pb-20 lg:pb-0">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 bg-white/20 backdrop-blur rounded-3xl p-8 border border-white/20">
             <div class="grid lg:grid-cols-2 gap-12 items-center">
                 <div class="mt-8 lg:mt-0">
                     <span class="gsap-hero inline-block py-1 px-3 rounded-full bg-brand-100 text-brand-600 text-sm font-semibold mb-6 tracking-wide uppercase">Official Website</span>
@@ -250,11 +249,12 @@
                     <p class="text-slate-600" data-i18n="mission.text">We support the long-term development of community institutions through practical digital solutions, collaborative initiatives, cultural exchange, and youth leadership development.</p>
                 </div>
             </div>
+            </div>
         </div>
     </section>
 
     <!-- About Us Section -->
-    <section id="about" class="min-h-screen flex items-center about-gradient noise-texture overflow-hidden relative">
+    <section id="about" class="min-h-screen flex items-center about-gradient noise-texture overflow-hidden relative snap-point snap-start">
         <!-- 动态背景气泡 - 关于我们板块 -->
         <div class="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
             <div class="blob bg-blue-100 w-80 h-80 rounded-full -bottom-20 -right-20 mix-blend-multiply animate-blob"></div>
@@ -267,7 +267,7 @@
         </div>
         
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full">
-            <div class="grid lg:grid-cols-12 gap-12 lg:gap-20 items-start gsap-scroll">
+            <div class="grid lg:grid-cols-12 gap-12 lg:gap-20 items-start">
                 <!-- Left Column: Heading & Accent -->
                 <div class="lg:col-span-5 pt-8">
                     <div class="inline-block px-4 py-1.5 bg-brand-50 text-brand-600 text-xs font-bold tracking-[0.2em] uppercase rounded-sm mb-6" data-i18n="about.eyebrow">
@@ -302,7 +302,7 @@
     </section>
 
     <!-- Programs Section -->
-    <section id="programs" class="min-h-screen flex flex-col justify-center programs-gradient relative overflow-hidden py-12">
+    <section id="programs" class="min-h-screen flex flex-col justify-center programs-gradient relative overflow-hidden py-12 snap-point snap-start">
         <!-- 动态背景气泡 - 项目活动板块 -->
         <div class="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
             <div class="blob bg-brand-50 w-[500px] h-[500px] rounded-full top-1/2 -right-20 mix-blend-multiply animate-blob"></div>
@@ -363,7 +363,7 @@
     </section>
 
     <!-- Membership Section -->
-    <section id="membership" class="min-h-screen flex items-center bg-[#f8fafc] relative overflow-hidden">
+    <section id="membership" class="min-h-screen flex items-center bg-[#f8fafc] relative overflow-hidden snap-point snap-start">
         <!-- Decorative Mesh Background -->
         <div class="absolute top-0 right-0 w-full h-full bg-gradient-to-br from-brand-100/60 via-blue-50/40 to-white pointer-events-none"></div>
         <!-- 增加一个更亮的色彩斑点，让玻璃模糊效果更明显 -->
@@ -433,7 +433,7 @@
     </section>
 
     <!-- Vision Section -->
-    <section id="vision" class="h-[70vh] flex items-center justify-center bg-brand-900 text-white relative overflow-hidden">
+    <section id="vision" class="h-[70vh] flex items-center justify-center bg-brand-900 text-white relative overflow-hidden snap-point snap-start">
         <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10 gsap-scroll">
             <h2 class="text-3xl font-bold mb-8" data-i18n="vision.title">我们的愿景</h2>
             <p class="text-xl md:text-2xl font-light leading-relaxed opacity-90" data-i18n="vision.text">
@@ -472,10 +472,5 @@
     </button>
     <!-- 确保路径前缀正确，type="module" 对于 Vite 项目是必须的 -->
     <script type="module" src="./script.js" onerror="document.getElementById('loader').style.display='none';"></script>
-    
-    <!-- 防御性脚本：如果 JS 报错导致 hideLoader 没运行，3秒后强制关闭 Loader -->
-    <script>
-        setTimeout(() => { const l = document.getElementById('loader'); if(l) l.style.display='none'; }, 3500);
-    </script>
 </body>
 </html>

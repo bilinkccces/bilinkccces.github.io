@@ -176,10 +176,9 @@ const initScrollSnapping = () => {
     snapTrigger = ScrollTrigger.create({
       snap: {
         snapTo: snapPoints,
-        duration: { min: 0.1, max: 0.4 },
+        duration: { min: 0.1, max: 0.3 },
         delay: 0, 
-        ease: "power2.out",
-        directional: true
+        ease: "power3.inOut"
       }
     });
   }
@@ -296,6 +295,76 @@ gsap.utils.toArray('.gsap-scroll').forEach(sectionContent => {
   }
 });
 
+// Custom Animation for About Us Section
+const aboutSection = document.getElementById('about');
+if (aboutSection && typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+    const tl = gsap.timeline({
+        scrollTrigger: {
+            trigger: aboutSection,
+            start: "top 70%", // 当板块顶部到达视口 70% 处时触发
+            toggleActions: "play none none reverse"
+        }
+    });
+
+    // 1. 动画化左侧栏元素 (小标签, 标题, 装饰线)
+    const leftCol = aboutSection.querySelector('.lg\\:col-span-5');
+    if (leftCol) {
+        tl.from(leftCol.children, {
+            y: 30,
+            opacity: 0,
+            duration: 0.8,
+            stagger: 0.2,
+            ease: "power3.out"
+        });
+    }
+
+    // 2. 动画化右侧正文
+    const rightText = aboutSection.querySelector('[data-i18n="about.text"]');
+    if (rightText) {
+        tl.from(rightText, {
+            y: 30,
+            opacity: 0,
+            duration: 0.8,
+            ease: "power3.out"
+        }, "-=0.6"); // 与上一个动画稍微重叠，更流畅
+    }
+
+    // 3. 动画化底部的价值标签 (Visionary / Collaborative)
+    const markers = aboutSection.querySelectorAll('.group');
+    if (markers.length > 0) {
+        tl.from(markers, {
+            y: 30,
+            opacity: 0,
+            duration: 0.8,
+            stagger: 0.2,
+            ease: "power3.out"
+        }, "-=0.6");
+    }
+}
+
+// 3. Vanta.js Background Effect for Hero Section
+if (typeof VANTA !== 'undefined') {
+    try {
+        VANTA.NET({
+            el: "#hero",
+            mouseControls: true,
+            touchControls: true,
+            gyroControls: false,
+            minHeight: 200.00,
+            minWidth: 200.00,
+            scale: 1.00,
+            scaleMobile: 1.00,
+            color: 0x0284c7,       // Brand-600 (Primary Blue)
+            backgroundColor: 0xf8fafc, // Slate-50 (Light Background)
+            points: 20.00,
+            maxDistance: 18.00,
+            spacing: 14.00
+        });
+    } catch (e) {
+        console.warn("Vanta.js failed to initialize:", e);
+    }
+}
+
 // Scrollspy for navigation links
 if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
     const sections = gsap.utils.toArray('section[id], footer[id]');
@@ -389,10 +458,16 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 });
 
 // 6. Loader
+let isIntroDone = false;
+
 const hideLoader = () => {
+  if (isIntroDone) return;
+  isIntroDone = true;
+
   const loader = document.getElementById('loader');
+  const isLoaderVisible = loader && loader.style.display !== 'none';
   
-  if (loader && loader.style.display !== 'none') {
+  if (isLoaderVisible) {
     // 确保隐藏前刷新布局计算
     if (typeof ScrollTrigger !== 'undefined') {
         ScrollTrigger.refresh();
@@ -404,6 +479,13 @@ const hideLoader = () => {
       loader.style.display = 'none';
       if (typeof gsap !== 'undefined') playHeroAnimation();
     }, 500);
+  } else {
+      // 如果 Loader 已经被隐藏（例如通过超时机制），直接播放动画，确保内容可见
+      if (typeof gsap !== 'undefined') playHeroAnimation();
+      if (typeof ScrollTrigger !== 'undefined') {
+          ScrollTrigger.refresh();
+          initScrollSnapping();
+      }
   }
 };
 
